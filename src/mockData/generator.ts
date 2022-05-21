@@ -25,7 +25,7 @@ export const generateTransactionsByCards = (cards: ICard[]): ITransaction[] =>
     transactionDate.setDate(random(1, 28));
 
     return {
-      transactionID: `transactionID: ${index}`,
+      transactionID: `${index}`,
       cardAccount: cards[index % cards.length].cardAccount,
       cardID: cards[index % cards.length].cardID,
       amount: random(1, 100),

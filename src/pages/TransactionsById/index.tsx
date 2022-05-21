@@ -3,11 +3,11 @@ import { isNil } from 'lodash';
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { withBreadCrumbs } from '../../hocs/withBreadCrumbs';
 import { makeTransactionByIdSelector } from '../../selectors/transactions';
 import { ITransactionIdParams } from '../../types/params';
 import { formatDate } from '../../utils/date';
 import { useStyles } from './styles';
-
 
 export const TransactionsById: React.FC = () => {
     const classes = useStyles();
@@ -40,3 +40,5 @@ export const TransactionsById: React.FC = () => {
       </Card>
     ) : null;
 }
+
+export default withBreadCrumbs(TransactionsById);

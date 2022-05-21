@@ -9,6 +9,7 @@ import { Pagination } from "@material-ui/lab";
 import React, { SetStateAction, useCallback, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { generatePath, Link as RouterLink } from "react-router-dom";
+import { withBreadCrumbs } from "../../hocs/withBreadCrumbs";
 import { CARD_BY_ID } from "../../routes/constants";
 import {
   makeCardsByCountAndOffsetSelector,
@@ -90,3 +91,6 @@ export const Cards: React.FC = () => {
     </div>
   );
 };
+
+
+export default withBreadCrumbs(Cards);

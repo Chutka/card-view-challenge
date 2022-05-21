@@ -9,6 +9,7 @@ import { Pagination } from "@material-ui/lab";
 import React, { SetStateAction, useCallback, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { generatePath, Link as RouterLink } from "react-router-dom";
+import { withBreadCrumbs } from "../../hocs/withBreadCrumbs";
 import { TRANSACTION_BY_ID } from "../../routes/constants";
 import { makeTransactionsByFiltersSelector } from "../../selectors/transactions";
 import { ITransactionsFilter } from "../../types/transactionsFilters";
@@ -29,8 +30,6 @@ export const Transactions: React.FC = () => {
     startDate: null,
     endDate: null
   });
-
-  console.log(filters);
 
   const transactionsByPageSelector = useMemo(
     () =>
@@ -103,3 +102,5 @@ export const Transactions: React.FC = () => {
     </div>
   );
 };
+
+export default withBreadCrumbs(Transactions);

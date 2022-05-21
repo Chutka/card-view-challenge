@@ -9,6 +9,7 @@ import { isNil } from "lodash";
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useParams, Link as RouterLink, generatePath } from "react-router-dom";
+import { withBreadCrumbs } from "../../hocs/withBreadCrumbs";
 import { CARD_BY_ID_TRANSACTIONS } from "../../routes/constants";
 import { makeCardByIdSelector } from "../../selectors/cards";
 import { ICardIdParams } from "../../types/params";
@@ -54,3 +55,5 @@ export const CardById: React.FC = () => {
     </Card>
   ) : null;
 };
+
+export default withBreadCrumbs(CardById);
