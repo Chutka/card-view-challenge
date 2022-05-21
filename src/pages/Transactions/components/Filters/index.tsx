@@ -10,9 +10,9 @@ import { KeyboardDatePicker } from "@material-ui/pickers";
 import { isNil } from "lodash";
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
-import { cardsSelector } from "../../../selectors/cards";
-import { CurrenciesEnum } from "../../../types/currencies";
-import { ITransactionsFilter } from "../../../types/transactionsFilters";
+import { cardsSelector } from "../../../../selectors/cards";
+import { CurrenciesEnum } from "../../../../types/currencies";
+import { ITransactionsFilter } from "../../../../types/transactionsFilters";
 import { useStyles } from "./styles";
 
 interface FiltersProps {
@@ -102,14 +102,14 @@ export const Filters: React.FC<FiltersProps> = ({ value, onChange }) => {
 
   const handleClickFilterReset = useCallback(() => {
     onChange({
-      cardID: '',
-      cardAccount: '',
-      currency: '',
-      amount: '',
+      cardID: "",
+      cardAccount: "",
+      currency: "",
+      amount: "",
       startDate: null,
-      endDate: null
-    })
-  }, [onChange])
+      endDate: null,
+    });
+  }, [onChange]);
 
   return (
     <div className={classes.container}>
@@ -169,7 +169,9 @@ export const Filters: React.FC<FiltersProps> = ({ value, onChange }) => {
         value={value.endDate}
         onChange={handleChangeEndDate}
       />
-      <Button size="small" type="button" onClick={handleClickFilterReset}>Reset</Button>
+      <Button size="small" type="button" onClick={handleClickFilterReset}>
+        Reset
+      </Button>
     </div>
   );
 };

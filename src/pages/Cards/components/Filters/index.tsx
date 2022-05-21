@@ -1,10 +1,10 @@
 import { FormControl, InputLabel, Select, MenuItem, TextField } from "@material-ui/core";
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
-import { cardsSelector } from "../../../selectors/cards";
-import { TStatusCard } from "../../../types/card";
-import { ICardsFilter } from "../../../types/cardsFilter";
-import { CurrenciesEnum } from "../../../types/currencies";
+import { cardsSelector } from "../../../../selectors/cards";
+import { TStatusCard } from "../../../../types/card";
+import { ICardsFilter } from "../../../../types/cardsFilter";
+import { CurrenciesEnum } from "../../../../types/currencies";
 import { useStyles } from "./styles";
 
 interface FiltersProps {
