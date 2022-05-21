@@ -6,42 +6,59 @@ import {
   Link
 } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { SetStateAction, useCallback, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { generatePath, Link as RouterLink } from "react-router-dom";
 import { CARD_BY_ID } from "../../routes/constants";
 import {
-  cardsLengthSelector,
   makeCardsByCountAndOffsetSelector,
 } from "../../selectors/cards";
+import { ICardsFilter } from "../../types/cardsFilter";
+import { Filters } from "./components/Filters";
 import { useStyles } from "./styles";
 
 const COUNT_CARDS_PER_PAGE = 10;
 
 export const Cards: React.FC = () => {
   const classes = useStyles();
+  const [filters, setFilters] = useState<ICardsFilter>({
+    cardID: '',
+    cardAccount: '',
+    currency: '',
+    status: ''
+  });
   const [page, setPage] = useState(1);
 
   const cardsByPageSelector = useMemo(
     () =>
       makeCardsByCountAndOffsetSelector(
-        COUNT_CARDS_PER_PAGE,
-        (page - 1) * COUNT_CARDS_PER_PAGE
+        filters,
       ),
-    [page]
+    [filters]
   );
 
   const cards = useSelector(cardsByPageSelector);
-  const countCards = useSelector(cardsLengthSelector);
-  const countPages = Math.ceil(countCards / COUNT_CARDS_PER_PAGE);
 
+  const cardsByPage = useMemo(() => {
+    const start = (page - 1) * COUNT_CARDS_PER_PAGE,
+      end = start + COUNT_CARDS_PER_PAGE;
+    return cards.slice(start, end);
+  }, [cards, page])
+  const countPages = Math.ceil(cards.length / COUNT_CARDS_PER_PAGE);
+
+  const handleFilterOnChange = useCallback((newFilters: SetStateAction<ICardsFilter>) => {
+    setPage(1);
+    setFilters(newFilters);
+  }, []);
+  
   const handlePageChange = useCallback((_: unknown, newPage: number) => {
     setPage(newPage);
   }, []);
 
   return (
     <div>
-      {cards.map((card, index, cardsList) => (
+      <Filters value={filters} onChange={handleFilterOnChange} />
+      {cardsByPage.map((card, index, cardsList) => (
         <Card
           key={card.cardID}
           className={

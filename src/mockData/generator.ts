@@ -20,15 +20,20 @@ export const generateCards = (): ICard[] =>
   }));
 
 export const generateTransactionsByCards = (cards: ICard[]): ITransaction[] =>
-  Array.from({ length: random(200, 2000) }, (_: unknown, index) => ({
-    transactionID: `transactionID: ${index}`,
-    cardAccount: cards[index % cards.length].cardAccount,
-    cardID: cards[index % cards.length].cardID,
-    amount: random(1, 100),
-    currency: cards[index % cards.length].currency,
-    transactionDate: new Date(),
-    merchantInfo: 'store',
-  }));
+  Array.from({ length: random(200, 2000) }, (_: unknown, index) => {
+    const transactionDate = new Date();
+    transactionDate.setDate(random(1, 28));
+
+    return {
+      transactionID: `transactionID: ${index}`,
+      cardAccount: cards[index % cards.length].cardAccount,
+      cardID: cards[index % cards.length].cardID,
+      amount: random(1, 100),
+      currency: cards[index % cards.length].currency,
+      transactionDate,
+      merchantInfo: 'store',
+    }
+  });
 
 export const CARDS_MOCK = generateCards();
 

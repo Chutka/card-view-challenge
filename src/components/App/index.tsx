@@ -18,34 +18,41 @@ import {
 } from "../../routes/constants";
 import { Provider } from "react-redux";
 import { store } from "../../store";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 function App() {
   return (
-    <Provider store={store}>
-      <div className="App">
-        <Router>
-          <Header />
-          <Container maxWidth="lg">
-            <Routes>
-              <Route path={HOME} element={<Home />} />
-              <Route path={TRANSACTIONS} element={<Transactions />} />
-              <Route path={TRANSACTION_BY_ID} element={<TransactionsById />} />
-              {/* <Route path="transactions/:transactionId/:cardId" element={} /> ???? */}
-              <Route path={CARDS} element={<Cards />} />
-              <Route path={CARD_BY_ID} element={<CardById />} />
-              <Route
-                path={CARD_BY_ID_TRANSACTIONS}
-                element={<Transactions />}
-              />
-              <Route
-                path={CARD_BY_ID_TRANSACTION_BY_ID}
-                element={<TransactionsById />}
-              />
-            </Routes>
-          </Container>
-        </Router>
-      </div>
-    </Provider>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Provider store={store}>
+        <div className="App">
+          <Router>
+            <Header />
+            <Container maxWidth="lg">
+              <Routes>
+                <Route path={HOME} element={<Home />} />
+                <Route path={TRANSACTIONS} element={<Transactions />} />
+                <Route
+                  path={TRANSACTION_BY_ID}
+                  element={<TransactionsById />}
+                />
+                {/* <Route path="transactions/:transactionId/:cardId" element={} /> ???? */}
+                <Route path={CARDS} element={<Cards />} />
+                <Route path={CARD_BY_ID} element={<CardById />} />
+                <Route
+                  path={CARD_BY_ID_TRANSACTIONS}
+                  element={<Transactions />}
+                />
+                <Route
+                  path={CARD_BY_ID_TRANSACTION_BY_ID}
+                  element={<TransactionsById />}
+                />
+              </Routes>
+            </Container>
+          </Router>
+        </div>
+      </Provider>
+    </MuiPickersUtilsProvider>
   );
 }
 
