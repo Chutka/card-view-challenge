@@ -1,5 +1,6 @@
 import { Button } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
+import { isEmpty, isNil } from "lodash";
 import React, { ComponentType, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -41,7 +42,11 @@ export function PaginationList<T, FT>({
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     for (const [key, value] of Object.entries(filter)) {
-      params.set(key, value.toString())
+      if (!isNil(value) && !isEmpty(value)) {
+        params.set(key, value.toString())
+      } else {
+        params.delete(key);
+      }
     }
     navigate(`${location.pathname}?${params.toString()}`, { replace: true});
   }, [filter, location.pathname, location.search, navigate])

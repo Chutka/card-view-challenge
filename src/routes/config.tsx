@@ -7,7 +7,7 @@ import Transactions from '../pages/Transactions';
 import TransactionsById from '../pages/TransactionsById';
 import { CARDS, CARD_BY_ID, CARD_BY_ID_TRANSACTIONS, CARD_BY_ID_TRANSACTION_BY_ID, HOME, TRANSACTIONS, TRANSACTION_BY_ID } from "./constants";
 
-interface IRouteExtended extends PathRouteProps {
+export interface IRouteExtended extends PathRouteProps {
     name?: string;
 }
 
