@@ -22,6 +22,18 @@ export const CardById: React.FC = () => {
 
   const cardSelector = useMemo(() => makeCardByIdSelector(cardId), [cardId]);
   const card = useSelector(cardSelector);
+
+  const transactionsPath = useMemo(() => {
+    if (isNil(card)) {
+      return '';
+    }
+    const result = generatePath(CARD_BY_ID_TRANSACTIONS, { cardId: card.cardID });
+    const params = new URLSearchParams();
+    params.append('cardID', card.cardID);
+
+    return `${result}?${params.toString()}`
+  }, [card])
+
   return !isNil(card) ? (
     <Card>
       <CardContent>
@@ -50,7 +62,7 @@ export const CardById: React.FC = () => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link component={RouterLink} to={generatePath(CARD_BY_ID_TRANSACTIONS, { cardId: card.cardID })}>Transactions</Link>
+        <Link component={RouterLink} to={transactionsPath}>Transactions</Link>
       </CardActions>
     </Card>
   ) : null;
