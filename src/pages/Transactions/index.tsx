@@ -1,5 +1,4 @@
-import React, { SetStateAction, useCallback, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useMemo } from "react";
 import { PaginationList } from "../../components/PaginationList";
 import { withBreadCrumbs } from "../../hocs/withBreadCrumbs";
 import { makeTransactionsByFiltersSelector } from "../../selectors/transactions";
@@ -9,40 +8,23 @@ import { Filters } from "./components/Filters";
 import { TransactionItem } from "./components/TransactionItem";
 
 export const Transactions: React.FC = () => {
-  const [page, setPage] = useState(1);
-  const [filters, setFilters] = useState<ITransactionsFilter>({
+  const initialFilter = useMemo<ITransactionsFilter>(() => ({
     cardID: "",
     cardAccount: "",
     currency: "",
     amount: "",
     startDate: null,
     endDate: null,
-  });
-
-  const transactionsByPageSelector = useMemo(
-    () => makeTransactionsByFiltersSelector(filters),
-    [filters]
-  );
-
-  const transactions = useSelector(transactionsByPageSelector);
-
-  const handleFilterOnChange = useCallback(
-    (newFilters: SetStateAction<ITransactionsFilter>) => {
-      setPage(1);
-      setFilters(newFilters);
-    },
-    []
-  );
+  }), []);
 
   return (
     <div>
-      <Filters value={filters} onChange={handleFilterOnChange} />
-      <PaginationList<ITransaction>
-        items={transactions}
-        Item={TransactionItem}
+      <PaginationList<ITransaction, ITransactionsFilter>
+        initialFilter={initialFilter}
+        itemsSelector={makeTransactionsByFiltersSelector}
         getItemKey={(transaction) => transaction.transactionID}
-        page={page}
-        onPageChange={setPage}
+        Item={TransactionItem}
+        Filter={Filters}
       />
     </div>
   );

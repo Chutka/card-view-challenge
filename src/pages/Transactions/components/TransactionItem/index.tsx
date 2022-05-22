@@ -6,18 +6,19 @@ import {
   CardActions,
   Link,
 } from "@material-ui/core";
-import { Link as RouterLink, generatePath } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useStyles } from "./styles";
-import { IBaseItemProps } from "../../../../components/PaginationList/types";
-import { TRANSACTION_BY_ID } from "../../../../routes/constants";
+import { BaseItemProps } from "../../../../components/PaginationList/types";
 import { formatDate } from "../../../../utils/date";
 import { ITransaction } from "../../../../types/transaction";
 
-export const TransactionItem: React.FC<IBaseItemProps<ITransaction>> = ({
+export const TransactionItem: React.FC<BaseItemProps<ITransaction>> = ({
   className,
   item,
 }) => {
   const classes = useStyles();
+  const location = useLocation();
+
   return (
     <Card
       key={item.transactionID}
@@ -42,9 +43,7 @@ export const TransactionItem: React.FC<IBaseItemProps<ITransaction>> = ({
       <CardActions>
         <Link
           component={RouterLink}
-          to={generatePath(TRANSACTION_BY_ID, {
-            transactionId: item.transactionID,
-          })}
+          to={`${location.pathname}/${item.transactionID}`}
         >
           More info
         </Link>

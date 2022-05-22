@@ -4,23 +4,18 @@ import {
   Select,
   MenuItem,
   TextField,
-  Button,
 } from "@material-ui/core";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { isNil } from "lodash";
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
+import { FilterComponentProps } from "../../../../components/PaginationList/types";
 import { cardsSelector } from "../../../../selectors/cards";
 import { CurrenciesEnum } from "../../../../types/currencies";
 import { ITransactionsFilter } from "../../../../types/transactionsFilters";
 import { useStyles } from "./styles";
 
-interface FiltersProps {
-  value: ITransactionsFilter;
-  onChange: React.Dispatch<React.SetStateAction<ITransactionsFilter>>;
-}
-
-export const Filters: React.FC<FiltersProps> = ({ value, onChange }) => {
+export const Filters: React.FC<FilterComponentProps<ITransactionsFilter>> = ({ value, onChange }) => {
   const classes = useStyles();
   const cards = useSelector(cardsSelector);
 
@@ -100,17 +95,6 @@ export const Filters: React.FC<FiltersProps> = ({ value, onChange }) => {
     [onChange]
   );
 
-  const handleClickFilterReset = useCallback(() => {
-    onChange({
-      cardID: "",
-      cardAccount: "",
-      currency: "",
-      amount: "",
-      startDate: null,
-      endDate: null,
-    });
-  }, [onChange]);
-
   return (
     <div className={classes.container}>
       <FormControl className={classes.cardSelect}>
@@ -169,9 +153,6 @@ export const Filters: React.FC<FiltersProps> = ({ value, onChange }) => {
         value={value.endDate}
         onChange={handleChangeEndDate}
       />
-      <Button size="small" type="button" onClick={handleClickFilterReset}>
-        Reset
-      </Button>
     </div>
   );
 };

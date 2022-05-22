@@ -1,18 +1,14 @@
 import { FormControl, InputLabel, Select, MenuItem, TextField } from "@material-ui/core";
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
+import { FilterComponentProps } from "../../../../components/PaginationList/types";
 import { cardsSelector } from "../../../../selectors/cards";
 import { TStatusCard } from "../../../../types/card";
 import { ICardsFilter } from "../../../../types/cardsFilter";
 import { CurrenciesEnum } from "../../../../types/currencies";
 import { useStyles } from "./styles";
 
-interface FiltersProps {
-  value: ICardsFilter;
-  onChange: React.Dispatch<React.SetStateAction<ICardsFilter>>
-}
-
-export const Filters: React.FC<FiltersProps>= ({ value, onChange }) => {
+export const Filters: React.FC<FilterComponentProps<ICardsFilter>> = ({ value, onChange }) => {
     const classes = useStyles();
   const cards = useSelector(cardsSelector);
 

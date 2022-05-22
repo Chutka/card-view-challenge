@@ -10,9 +10,9 @@ import { Link as RouterLink, generatePath } from "react-router-dom";
 import { CARD_BY_ID } from "../../../../routes/constants";
 import { ICard } from "../../../../types/card";
 import { useStyles } from "./styles";
-import { IBaseItemProps } from "../../../../components/PaginationList/types";
+import { BaseItemProps } from "../../../../components/PaginationList/types";
 
-export const CardItem: React.FC<IBaseItemProps<ICard>> = ({
+export const CardItem: React.FC<BaseItemProps<ICard>> = ({
   className,
   item,
 }) => {
