@@ -1,13 +1,15 @@
 import { Button } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
-import React, { ComponentType, SetStateAction, useCallback, useMemo, useState } from "react";
+import React, { ComponentType, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { TRootState } from "../../store";
 import { useStyles } from "./styles";
 import { BaseItemProps, FilterComponentProps } from "./types";
 
 interface PaginationListProps<T, FT> {
   initialFilter: FT;
+  prepareFilterBySearchParams: (filter: FT, params: URLSearchParams) => FT;
   itemsSelector: (filter: FT) => (state: TRootState) => T[];
   getItemKey: (item: T) => React.Key;
 
@@ -19,17 +21,30 @@ const COUNT_ITEMS_PER_PAGE = 10;
 
 export function PaginationList<T, FT>({
   initialFilter,
+  prepareFilterBySearchParams,
   itemsSelector,
   getItemKey,
   Item,
   Filter,
 }: PaginationListProps<T, FT>) {
   const classes = useStyles();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const [filters, setFilters] = useState<FT>(initialFilter);
+  const [filter, setFilter] = useState<FT>(() => {
+    return prepareFilterBySearchParams(initialFilter, new URLSearchParams(location.search))
+  });
   const [page, setPage] = useState(1);
 
-  const items = useSelector(itemsSelector(filters));
+  const items = useSelector(itemsSelector(filter));
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    for (const [key, value] of Object.entries(filter)) {
+      params.set(key, value.toString())
+    }
+    navigate(`${location.pathname}?${params.toString()}`, { replace: true});
+  }, [filter, location.pathname, location.search, navigate])
 
   const itemsByPage = useMemo(() => {
     const start = (page - 1) * COUNT_ITEMS_PER_PAGE,
@@ -46,18 +61,18 @@ export function PaginationList<T, FT>({
   const handleFilterOnChange = useCallback(
     (newFilters: SetStateAction<FT>) => {
       setPage(1);
-      setFilters(newFilters);
+      setFilter(newFilters);
     },
     []
   );
 
   const handleClickFilterReset = useCallback(() => {
-    setFilters(initialFilter);
+    setFilter(initialFilter);
   }, [initialFilter])
   
   return (
     <div>
-      <Filter value={filters} onChange={handleFilterOnChange} />
+      <Filter value={filter} onChange={handleFilterOnChange} />
       <Button size="small" type="button" onClick={handleClickFilterReset}>
         Reset Filter
       </Button>
